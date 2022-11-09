@@ -72,13 +72,13 @@ $ wget https://dl.google.com/android/repository/android-ndk-r21e-linux-x86_64.zi
 这台机器已经装好了Xcode，直接就可以编译[test_mac](./scripts/test_mac.sh), 实际上使用的toolset=clang-darwin131
 
 ## 参考
-[clang: libc++](https://stackoverflow.com/questions/8486077/how-to-compile-link-boost-with-clang-libc)
-[clang安装](https://stackoverflow.com/questions/39332406/install-libc-on-ubuntu)
-[mac: visibility](https://stackoverflow.com/questions/8685045/xcode-with-boost-linkerid-warning-about-visibility-settings)
-[lipo](https://blog.csdn.net/qq_33053671/article/details/106388313)
-[compilers](https://www.alibabacloud.com/blog/gcc-vs--clangllvm-an-in-depth-comparison-of-cc%2B%2B-compilers_595309)
-[clang](https://clang.llvm.org/get_started.html)
-[llvm](https://llvm.org/docs/GettingStarted.html#requirements)
+* [clang: libc++](https://stackoverflow.com/questions/8486077/how-to-compile-link-boost-with-clang-libc)
+* [clang安装](https://stackoverflow.com/questions/39332406/install-libc-on-ubuntu)
+* [mac: visibility](https://stackoverflow.com/questions/8685045/xcode-with-boost-linkerid-warning-about-visibility-settings)
+* [lipo](https://blog.csdn.net/qq_33053671/article/details/106388313)
+* [compilers](https://www.alibabacloud.com/blog/gcc-vs--clangllvm-an-in-depth-comparison-of-cc%2B%2B-compilers_595309)
+* [clang](https://clang.llvm.org/get_started.html)
+* [llvm](https://llvm.org/docs/GettingStarted.html#requirements)
 
 
 
