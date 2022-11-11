@@ -71,6 +71,34 @@ $ wget https://dl.google.com/android/repository/android-ndk-r21e-linux-x86_64.zi
 ### 在Mac mini上
 这台机器已经装好了Xcode，直接就可以编译[test_mac](./scripts/test_mac.sh), 实际上使用的toolset=clang-darwin131
 
+## iphone simulator
+环境：Mac mini + Xcode.14 + iphonesimilator sdk 15.4
+### 编译
+* 设置toolset：将[project-config.jam](./scripts/project-config.jam) 放在 __boost_$VER/__ 目录下
+* 在 __boost_$VER/__ 运行[test_iphonesim.sh](./scripts/test_iphonesim.sh)
+* *.a文件生成在 __boost_$VER/stage/lib
+### 测试
+* 打开Xcode，创建一个__Object-C__的Hello World项目，假设项目名叫 **1234**
+* 在__Frameworks__文件夹选择：添加文件到项目，选择libboost_xx.a添加
+* 编译。Xcode能够识别库文件，如果版本不对会报错，类似“...libboost_xxx.a是为MACOS编译的...”
+* 如果要看运行结果，要把.h和.a文件设置到项目中。以下是不正确但是能用的方法：
+	1. 将.h文件放到iPhoneSimulator默认路径
+	``` bash
+	$ cd /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/include 
+	$ sudo mkdir boost; cd boost
+	$ sudo cp -rf __boost_$VER/boost/* ./
+	```
+	2. 将.a文件拷贝到项目默认路径，默认路径在 __/Users/bsl/Library/Developer/Xcode/DerivedData/项目名-乱码/Build/Products/Debug-iphonesimulator/__
+
+## 小结
+目前boost编译的思路主要是：
+
+1. 安装sdk
+2. 写project-config.jam文件配置toolset，也就是指定编译器
+3. 写build_xx.sh文件，主要配置一些生成库属性,flags和目录
+
+按照这个思路，主要的问题是SDK，比如MAC是不是有可以在Ubuntu上跑的SDK。如果不可以，那么要研究一下llvm。我猜这两个最终归结到一个问题就是Apple是不是提供在别的OS上跑的后端编译工具。
+
 ## 参考
 * [clang: libc++](https://stackoverflow.com/questions/8486077/how-to-compile-link-boost-with-clang-libc)
 * [clang安装](https://stackoverflow.com/questions/39332406/install-libc-on-ubuntu)
@@ -79,6 +107,5 @@ $ wget https://dl.google.com/android/repository/android-ndk-r21e-linux-x86_64.zi
 * [compilers](https://www.alibabacloud.com/blog/gcc-vs--clangllvm-an-in-depth-comparison-of-cc%2B%2B-compilers_595309)
 * [clang](https://clang.llvm.org/get_started.html)
 * [llvm](https://llvm.org/docs/GettingStarted.html#requirements)
-
-
-
+* [Apple-Boost-BuildScript](https://github.com/faithfracture/Apple-Boost-BuildScript)
+* [Boost各平台编译](https://developer.aliyun.com/article/252857#slide-1)
