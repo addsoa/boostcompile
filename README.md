@@ -32,7 +32,7 @@ $ sudo apt-get install ip-utils
 ### 目录结构
 
 |用户目录|子目录|子目录|说明|
-|---|---|---||---|
+|---|---|---|---|
 |/home/user1/||||
 ||tools||for toolchains|
 ||tools|sdksrcs|sdk源代码|
