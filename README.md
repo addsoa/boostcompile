@@ -1,26 +1,23 @@
-# boost的编译
-* 编译[boost_1_75](https://boostorg.jfrog.io/artifactory/main/release/1.75.0/source/boost_1_75_0.tar.bz2)
-* 目前只处理了静态库的情况。
-* [测试代码](./testbuild/)
-## Android
+# Boost 交叉编译
+## 环境
 ### 工具
 [VirtualBox](https://www.virtualbox.org/) + [ubuntu 20 live server amd64 iso](https://mirrors.zju.edu.cn/ubuntu-releases/20.04.5/ubuntu-20.04.5-live-server-amd64.iso).
-
-在Vmware上试过各种ubuntu-desktop，都不行。没有试过Virtualbox + ubuntu server的组合。总之带图形界面的desktop风险比较大。
-
-#### 一些设置
+### 虚机配置
+#### 网络
 * 设置一个host-only的网卡
-
-![interface](./images/network1.png)
-
-* 共享文件夹
+* 如果不能ssh访问，设置host-only网口
+```bash
+$ sudo ifconfig enp0s8 up
+$ sudo ifconfig enp0s8 [some ip, e.g. 192.168.0.100]
+```
+#### 共享文件夹
 在VirtualBox设置中设置了以后，在linux上设置
 
 ```
 $ sudo apt install virtualbox-guest-utils
 $ sudo mount -t vboxsf [name configured in host] [directory created]
 ```
-* 一些工具
+#### 一些工具
 
 ```
 $ sudo apt-get install unzip
@@ -31,81 +28,91 @@ $ sudo apt-get install ip-utils
 * [操作](https://gist.github.com/estorgio/1d679f962e8209f8a9232f7593683265)
 * [命名](https://askubuntu.com/questions/1355061/shared-folder-was-not-found-vboxsf)
 
-### 编译
-* 安装linux 编译工具
+## 编译
+### 目录结构
+
+|用户目录|子目录|子目录|子目录|子目录|说明|
+|---|---|---|---|---|---|
+|/home/user1/||||||
+||tools||||for toolchains|
+||tools|sdksrcs|||sdk源代码|
+||tools|toolchains|||sdk源代码编译结构，应用库文件编译toolchain|
+||tools|scripts|||编译脚本|
+||workspaces||||应用库工作环境|
+||workspaces|packages|||下载的压缩文件|
+||workspaces|libs|||应用库编译结果|
+||workspaces|boost_1_75_0|||需要编译的源代码|
+
+### 编译命令
+
+Boost 参考[build_boost_testios.sh](./scripts/build_boolst_testios.sh):
+
+``` bash
+cd $BOOST_SRC_PATH; ./tools/build/b2  \         # b2为boost的编译工具
+    cxxflags="-fPIC -std=c++11 -stdlib=libc++ -fvisibility=hidden -fvisibility-inlines-hidden -isysroot $IOS_SDK_PATH " \
+    cflags="-fPIC" \                            # cxxflags和cflags可随意加减
+    linkflags="-isysroot $IOS_SDK_PATH " \      # 同上
+    define=BOOST_THREAD_TEST=1 \                # -D
+    toolset=clang-testios \                     # 1.
+    target-os=iphone \                          # 2.
+    architecture=arm \                          # 3. 这3个配套，要和编译目标一致
+    variant=release \                           # release或debug 版本
+    --layout=versioned \ 
+    threading=multi \ 
+    threadapi=pthread \
+    link=static \                               # 1.
+    runtime-link=static \                       # 2. 这2个配套，表示编译.a文件
+    --stagedir=$BOOST_STAGE_PATH \              # 编译结果目录
+    --with-atomic \                             # 需要编译的库，如 --with-date_time
+    --with-filesystem \
+    -d2                                         # debug log 等级，一般d1，d2已经比较详细
 
 ```
-$ sudo apt-get install build-essential linux-headers-`uname -r`
+
+更多配置参考：[b2](https://www.boost.org/doc/libs/1_80_0/tools/build/doc/html/index.html#_introduction)
+## 编译环境创建
+### 编译工具安装
+
+``` bash
+$ sudo apt-get upgrade
+$ sudo apt-get install bison zip unzip python clang cmake libssl-dev lzma-dev libxml2-dev llvm-dev uuid-dev 
 ```
+### android
 
-* 安装android 编译工具, 直接解压缩。
+1. 下载[android-ndk-r21e-linux-x86_64.zip](https://dl.google.com/android/repository/android-ndk-r21e-linux-x86_64.zip)
+2. [buildtoolchain_android.sh](./scripts/env_cross/buildtoolchain_android.sh)
+3.  [How to compile a static library using the android ndk](https://stackoverflow.com/questions/2943828/how-to-compile-a-static-library-using-the-android-ndk)
+4.  [脚本来源](https://gist.github.com/enh/b2dc8e2cbbce7fffffde2135271b10fd)
 
-```
-$ wget https://dl.google.com/android/repository/android-ndk-r21e-linux-x86_64.zip
-```
+### mac
 
+1. 下载 __osxcross__ 代码
 
-* 我的编译环境目录结构是这样
+* https://github.com/tpoechtrager/osxcross.git
+* https://github.com/tpoechtrager/xar.git
+* https://github.com/tpoechtrager/apple-libtapi.git
+* https://github.com/tpoechtrager/cctools-port.git
 
-![files](./images/files.png)
+2. [从mini打包sdk源](https://github.com/tpoechtrager/osxcross#packaging-the-sdk)
+3. 将打包好的Mac**.tar.gz 放到osxcross-master/tarball/目录下
+4. [buildtoolchain_mac.sh](./scripts/env_cross/buildtoolchain_mac.sh)
 
+### ios
 
-* 编译脚本来自 [gist](https://gist.github.com/enh/b2dc8e2cbbce7fffffde2135271b10fd), 修改并使用的脚本: [test_aarch.sh](./scripts/test_aarch.sh)。
+1. 下载代码
 
-* 编译结果在 **boost_1_75_0/stage/lib/**
+* https://github.com/tpoechtrager/apple-libtapi.git
+* https://github.com/tpoechtrager/cctools-port.git
+* https://github.com/tpoechtrager/ldid.git
 
-### 测试
-* 安装 [android studio](https://developer.android.com/studio).
+2. [打包sdk源并编译](https://docs.godotengine.org/en/stable/development/compiling/cross-compiling_for_ios_on_linux.html)
+3. [boosttoolchain_ios.sh](./scripts/env_cross/buildtoolchain_ios.sh)
 
-* [创建一个c++项目](https://developer.android.com/studio/projects/add-native-code)
-
-* [创建一个虚拟设备](https://developer.android.com/studio/run/managing-avds#skins), 选这个设备类型，太高版本的x86模拟不了arm，太低版本的不是**v8a**
-![device](./images/device1.png)
-
-## MacOS
-### 交叉编译
-在ubuntu虚机上
-* 用clang-darwin编在出库在mac上不能识别
-* 用darwin-clang编没有darwin环境。darwin默认macOS，网上找了一下，在linux上搭建这个环境好像不是主流，没看到参考。
-* 打算先搞ios再来看这个
-### 在Mac mini上
-这台机器已经装好了Xcode，直接就可以编译[test_mac](./scripts/test_mac.sh), 实际上使用的toolset=clang-darwin131
-
-## iphone simulator
-环境：Mac mini + Xcode.14 + iphonesimilator sdk 15.4
-### 编译
-* 设置toolset：将[project-config.jam](./scripts/project-config.jam) 放在 __boost_$VER/__ 目录下
-* 在 __boost_$VER/__ 运行[test_iphonesim.sh](./scripts/test_iphonesim.sh)
-* *.a文件生成在 __boost_$VER/stage/lib
-### 测试
-* 打开Xcode，创建一个__Object-C__的Hello World项目，假设项目名叫 **1234**
-* 在__Frameworks__文件夹选择：添加文件到项目，选择libboost_xx.a添加
-* 编译。Xcode能够识别库文件，如果版本不对会报错，类似“...libboost_xxx.a是为MACOS编译的...”
-* 如果要看运行结果，要把.h和.a文件设置到项目中。以下是不正确但是能用的方法：
-	1. 将.h文件放到iPhoneSimulator默认路径
-	``` bash
-	$ cd /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/include 
-	$ sudo mkdir boost; cd boost
-	$ sudo cp -rf __boost_$VER/boost/* ./
-	```
-	2. 将.a文件拷贝到项目默认路径，默认路径在 __/Users/bsl/Library/Developer/Xcode/DerivedData/项目名-乱码/Build/Products/Debug-iphonesimulator/__
-
-## 小结
-目前boost编译的思路主要是：
-
-1. 安装sdk
-2. 写project-config.jam文件配置toolset，也就是指定编译器
-3. 写build_xx.sh文件，主要配置一些生成库属性,flags和目录
-
-按照这个思路，主要的问题是SDK，比如MAC是不是有可以在Ubuntu上跑的SDK。如果不可以，那么要研究一下llvm。我猜这两个最终归结到一个问题就是Apple是不是提供在别的OS上跑的后端编译工具。
-
-## 参考
-* [clang: libc++](https://stackoverflow.com/questions/8486077/how-to-compile-link-boost-with-clang-libc)
-* [clang安装](https://stackoverflow.com/questions/39332406/install-libc-on-ubuntu)
-* [mac: visibility](https://stackoverflow.com/questions/8685045/xcode-with-boost-linkerid-warning-about-visibility-settings)
-* [lipo](https://blog.csdn.net/qq_33053671/article/details/106388313)
-* [compilers](https://www.alibabacloud.com/blog/gcc-vs--clangllvm-an-in-depth-comparison-of-cc%2B%2B-compilers_595309)
-* [clang](https://clang.llvm.org/get_started.html)
-* [llvm](https://llvm.org/docs/GettingStarted.html#requirements)
-* [Apple-Boost-BuildScript](https://github.com/faithfracture/Apple-Boost-BuildScript)
-* [Boost各平台编译](https://developer.aliyun.com/article/252857#slide-1)
+### ios simulator
+同ios
+### 参考
+* https://github.com/tpoechtrager/osxcross
+* https://crosstool-ng.github.io/docs/introduction/
+* https://github.com/tpoechtrager/cctools-port/tree/master/cctools
+* https://github.com/faithfracture/Apple-Boost-BuildScript/blob/master/boost.sh
+* [mac上编译ios](./boostcompile.md)
