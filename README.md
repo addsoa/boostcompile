@@ -31,17 +31,17 @@ $ sudo apt-get install ip-utils
 ## 编译
 ### 目录结构
 
-|用户目录|子目录|子目录|子目录|子目录|说明|
+|用户目录|子目录|子目录|说明|
 |---|---|---|---|---|---|
-|/home/user1/||||||
-||tools||||for toolchains|
-||tools|sdksrcs|||sdk源代码|
-||tools|toolchains|||sdk源代码编译结构，应用库文件编译toolchain|
-||tools|scripts|||编译脚本|
-||workspaces||||应用库工作环境|
-||workspaces|packages|||下载的压缩文件|
-||workspaces|libs|||应用库编译结果|
-||workspaces|boost_1_75_0|||需要编译的源代码|
+|/home/user1/||||
+||tools||for toolchains|
+||tools|sdksrcs|sdk源代码|
+||tools|toolchains|sdk源代码编译结构，应用库文件编译toolchain|
+||tools|scripts|编译脚本|
+||workspaces||应用库工作环境|
+||workspaces|packages|下载的压缩文件|
+||workspaces|libs|应用库编译结果|
+||workspaces|boost_1_75_0|需要编译的源代码|
 
 ### 编译命令
 
