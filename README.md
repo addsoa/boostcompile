@@ -77,14 +77,15 @@ cd $BOOST_SRC_PATH; ./tools/build/b2  \         # b2为boost的编译工具
 $ sudo apt-get upgrade
 $ sudo apt-get install bison zip unzip python clang cmake libssl-dev lzma-dev libxml2-dev llvm-dev uuid-dev 
 ```
-### android
+### toolchains
+#### android
 
 1. 下载[android-ndk-r21e-linux-x86_64.zip](https://dl.google.com/android/repository/android-ndk-r21e-linux-x86_64.zip)
 2. [buildtoolchain_android.sh](./scripts/env_cross/buildtoolchain_android.sh)
 3.  [How to compile a static library using the android ndk](https://stackoverflow.com/questions/2943828/how-to-compile-a-static-library-using-the-android-ndk)
 4.  [脚本来源](https://gist.github.com/enh/b2dc8e2cbbce7fffffde2135271b10fd)
 
-### mac
+#### mac
 
 1. 下载 __osxcross__ 代码
 
@@ -97,7 +98,7 @@ $ sudo apt-get install bison zip unzip python clang cmake libssl-dev lzma-dev li
 3. 将打包好的Mac**.tar.gz 放到osxcross-master/tarball/目录下
 4. [buildtoolchain_mac.sh](./scripts/env_cross/buildtoolchain_mac.sh)
 
-### ios
+#### ios
 
 1. 下载代码
 
@@ -108,8 +109,12 @@ $ sudo apt-get install bison zip unzip python clang cmake libssl-dev lzma-dev li
 2. [打包sdk源并编译](https://docs.godotengine.org/en/stable/development/compiling/cross-compiling_for_ios_on_linux.html)
 3. [boosttoolchain_ios.sh](./scripts/env_cross/buildtoolchain_ios.sh)
 
-### ios simulator
+#### ios simulator
 同ios
+### toolchain 配置
+配置[boost project-config.jam](./scripts/env_cross/boost75/project-config.jam)
+### 问题
+一些sdk工具不能处理空文件，导致编译失败但不报错。目前需要调整makefile文件过滤这些文件。
 ### 参考
 * https://github.com/tpoechtrager/osxcross
 * https://crosstool-ng.github.io/docs/introduction/

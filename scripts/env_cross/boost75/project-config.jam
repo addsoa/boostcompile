@@ -1,0 +1,38 @@
+import os ;
+
+local TOOLCHAIN_PATH = /home/user1/tools/toolchains ;
+local ANDROID_TOOLCHAIN_PATH = $(TOOLCHAIN_PATH)/android/r21e/toolchain/bin ;
+local MAC_TOOLCHAIN_PATH = $(TOOLCHAIN_PATH)/mac/macos12/bin ;
+local IOSSIM_TOOLCHAIN_PATH = $(TOOLCHAIN_PATH)/iossim/iossim15/bin ;
+local IOS_TOOLCHAIN_PATH = $(TOOLCHAIN_PATH)/ios/ios15/bin ;
+
+using clang : testandroid
+:
+$(ANDROID_TOOLCHAIN_PATH)/aarch64-linux-android21-clang++
+:
+<archiver>$(ANDROID_TOOLCHAIN_DIR)/aarch64-linux-android-ar
+<ranlib>$(ANDROID_TOOLCHAIN_DIR)/aarch64-linux-android-ranlib
+;
+
+using clang : testmac
+: $(MAC_TOOLCHAIN_PATH)/x86_64-apple-darwin21.4-clang++
+:
+<archiver>$(MAC_TOOLCHAIN_PATH)/x86_64-apple-darwin21.4-ar
+<ranlib>$(MAC_TOOLCHAIN_PATH)/x86_64-apple-darwin21.4-ranlib
+;
+
+using clang : testiossim 
+: $(IOSSIM_TOOLCHAIN_PATH)/x86_64-apple-darwin21-clang++
+:
+<archiver>$(IOSSIM_TOOLCHAIN_PATH)/x86_64-apple-darwin21-ar
+<ranlib>$(IOSSIM_TOOLCHAIN_PATH)/x86_64-apple-darwin21-ranlib
+;
+
+using clang : testios
+: $(IOS_TOOLCHAIN_PATH)/arm-apple-darwin21-clang++
+:
+<archiver>$(IOS_TOOLCHAIN_PATH)/arm-apple-darwin21-ar
+<ranlib>$(IOS_TOOLCHAIN_PATH)/arm-apple-darwin21-ranlib
+;
+
+
