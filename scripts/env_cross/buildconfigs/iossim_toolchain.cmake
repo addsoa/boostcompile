@@ -1,0 +1,9 @@
+set(IOSSIM_TOOLCHAIN_ROOT /home/user1/tools/toolchains/iossim/iossim15)
+set(IOSSIM_TOOLCHAIN_BIN_PATH ${IOSSIM_TOOLCHAIN_ROOT}/bin)
+
+set(CMAKE_SYSROOT ${IOSSIM_TOOLCHAIN_ROOT}/SDK/iPhoneSimulator15.4.sdk)
+set(CMAKE_C_COMPILER ${IOSSIM_TOOLCHAIN_BIN_PATH}/x86_64-apple-darwin21-clang)
+set(CMAKE_CXX_COMPILER ${IOSSIM_TOOLCHAIN_BIN_PATH}/x86_64-apple-darwin21-clang++)
+set(CMAKE_AR ${IOSSIM_TOOLCHAIN_BIN_PATH}/x86_64-apple-darwin21-ar)
+set(CMAKE_RANLIB ${IOSSIM_TOOLCHAIN_BIN_PATH}/x86_64-apple-darwin21-ranlib)
+
