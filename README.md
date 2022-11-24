@@ -75,7 +75,7 @@ cd $BOOST_SRC_PATH; ./tools/build/b2  \         # b2为boost的编译工具
 
 ``` bash
 $ sudo apt-get upgrade
-$ sudo apt-get install bison zip unzip python clang cmake libssl-dev lzma-dev libxml2-dev llvm-dev uuid-dev 
+$ sudo apt-get install bison zip unzip python clang cmake libssl-dev lzma-dev libxml2-dev llvm-dev uuid-dev nasm libtool python-is-python3
 ```
 ### toolchains
 #### android

@@ -21,6 +21,7 @@ set(CMAKE_CXX_COMPILER ${MAC_TOOLCHAIN_BIN_PATH}/x86_64-apple-darwin21.4-clang++
 #set(CMAKE_CXX_COMPILER_RANLIB ${MAC_TOOLCHAIN_BIN_PATH}/x86_64-apple-darwin21.4-ranlib)
 set(CMAKE_AR ${MAC_TOOLCHAIN_BIN_PATH}/x86_64-apple-darwin21.4-ar)
 set(CMAKE_RANLIB ${MAC_TOOLCHAIN_BIN_PATH}/x86_64-apple-darwin21.4-ranlib)
+set(CMAKE_LD ${MAC_TOOLCHAIN_BIN_PATH}/x86_64-apple-darwin21.4-ld)
 
 
 # where is the target environment
@@ -37,8 +38,17 @@ set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)
 
 
 #set(CMAKE_BUILD_TYPE Debug)
-set(CMAKE_BUILD_TYPE Release)
+#set(CMAKE_BUILD_TYPE Release)
+
+# CMakeLists.txt
+#set(WORDS_BIGENDIAN 0)
+# libtiff
+#set(bigendian 0)
+# openjpeg
+#set(OPJ_BIG_ENDIAN 0)
+
+#set(ENV{OPENCV_IPP_PATH} /home/user1/workspaces/opencv-4.x/build/3rdparty/ippicv/ippicv_mac)
+
 
 #find_path(malloc.h $(OSXCROSS_SDK)/usr/include/malloc/)
 #list(APPEND CMAKE_INCLUDE_PATH ${OSXCROSS_SDK}/usr/include/malloc/)
-
