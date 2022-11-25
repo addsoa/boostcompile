@@ -7,7 +7,6 @@
 # ----------------------------------------------------------------------------
 
 
-include(/home/user1/tools/scripts/buildconfigs/android_toolchain.cmake)
 include(./cmake_user/Common.cmake)
 #zf : tmp
 set(CMAKE_INSTALL_PREFIX /home/user1/workspaces/opencv-4.x/build/install_test)

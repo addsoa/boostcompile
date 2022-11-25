@@ -1,24 +1,10 @@
 import os ;
 
-local XCODE_ROOT = /Applications/Xcode.app/Contents/Developer ;
-local IPHONESIM_SDK_PATH = $(XCODE_ROOT)/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk ;
-local XCODE_BIN_PATH = $(XCODE_ROOT)/Toolchains/XcodeDefault.xctoolchain/usr/bin ;
-
-using darwin : testiphonesim
-: $(XCODE_BIN_PATH)/clang++
-: <architecture>x86
-  <target-os>iphone
-  <compileflags>"-isysroot $(IPHONESIM_SDK_PATH) "
-  <cxxflags>"-fPIC -std=c++11 -stdlib=libc++ -fvisibility=hidden -fvisibility-inlines-hidden -isysroot $(IPHONESIM_SDK_PATH) "
-  <linkflags>"-isysroot $(IPHONESIM_SDK_PATH)"
-  <threading>multi
-;
-
-import os ;
-
 local TOOLCHAIN_PATH = /home/user1/tools/toolchains ;
 local ANDROID_TOOLCHAIN_PATH = $(TOOLCHAIN_PATH)/android/r21e/toolchain/bin ;
 local MAC_TOOLCHAIN_PATH = $(TOOLCHAIN_PATH)/mac/macos12/bin ;
+local IOSSIM_TOOLCHAIN_PATH = $(TOOLCHAIN_PATH)/iossim/iossim15/bin ;
+local IOS_TOOLCHAIN_PATH = $(TOOLCHAIN_PATH)/ios/ios15/bin ;
 
 using clang : testandroid
 :
@@ -35,6 +21,18 @@ using clang : testmac
 <ranlib>$(MAC_TOOLCHAIN_PATH)/x86_64-apple-darwin21.4-ranlib
 ;
 
-~
-~
-~
+using clang : testiossim
+: $(IOSSIM_TOOLCHAIN_PATH)/x86_64-apple-darwin21-clang++
+:
+<archiver>$(IOSSIM_TOOLCHAIN_PATH)/x86_64-apple-darwin21-ar
+<ranlib>$(IOSSIM_TOOLCHAIN_PATH)/x86_64-apple-darwin21-ranlib
+;
+
+using clang : testios
+: $(IOS_TOOLCHAIN_PATH)/arm-apple-darwin21-clang++
+:
+<archiver>$(IOS_TOOLCHAIN_PATH)/arm-apple-darwin21-ar
+<ranlib>$(IOS_TOOLCHAIN_PATH)/arm-apple-darwin21-ranlib
+;
+
+

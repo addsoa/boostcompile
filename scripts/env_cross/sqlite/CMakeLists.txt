@@ -1,7 +1,4 @@
-#include (/home/user1/tools/scripts/buildconfigs/mac_toolchain.cmake)
-#include (/home/user1/tools/scripts/buildconfigs/iossim_toolchain.cmake)
-#include (/home/user1/tools/scripts/buildconfigs/android_toolchain.cmake)
-include (/home/user1/tools/scripts/buildconfigs/ios_toolchain.cmake)
+include (/home/user1/tools/scripts/buildconfigs/toolchain_config.cmake)
 
 
 project(sqliteproj)
@@ -13,7 +10,8 @@ set(CMAKE_C_FLAGS "-fPIC -stdlib=libc++ -fvisibility=hidden -fvisibility-inlines
 set(MAKE_STATIC_LINKER_FLAGS "-Wl --no-undefined")
 
 
-#message(STATUS "ar = ${CMAKE_CXX_COMPILER_AR}")
-
 aux_source_directory(. SQLITE_SRC)
 add_library(sqlite ${SQLITE_SRC})
+
+set(ENV{PATH} ${ORIG_PATH})
+
