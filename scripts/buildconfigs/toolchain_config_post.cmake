@@ -1,2 +1,0 @@
-set(ENV{PATH} ${ORIG_PATH})
-

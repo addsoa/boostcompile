@@ -1,0 +1,52 @@
+set(IOSSIM_TOOLCHAIN_ROOT /home/user1/tools/toolchains/iossim/iossim15)
+set(IOSSIM_TOOLCHAIN_BIN_PATH ${IOSSIM_TOOLCHAIN_ROOT}/bin)
+
+set(OSXCROSS_HOST x86_64-apple-darwin21)
+set(OSXCROSS_TARGET_DIR ${IOSSIM_TOOLCHAIN_ROOT})
+set(OSXCROSS_SDK ${IOSSIM_TOOLCHAIN_ROOT}/SDK/iPhoneSimulator15.4.sdk/)
+
+set(CMAKE_SYSROOT ${IOSSIM_TOOLCHAIN_ROOT}/SDK/iPhoneSimulator15.4.sdk)
+set(CMAKE_C_COMPILER ${IOSSIM_TOOLCHAIN_BIN_PATH}/x86_64-apple-darwin21-clang)
+set(CMAKE_CXX_COMPILER ${IOSSIM_TOOLCHAIN_BIN_PATH}/x86_64-apple-darwin21-clang++)
+set(CMAKE_AR ${IOSSIM_TOOLCHAIN_BIN_PATH}/x86_64-apple-darwin21-ar)
+set(CMAKE_RANLIB ${IOSSIM_TOOLCHAIN_BIN_PATH}/x86_64-apple-darwin21-ranlib)
+set(CMAKE_LD ${IOSSIM_TOOLCHAIN_BIN_PATH}/x86_64-apple-darwin21-ld)
+set(CMAKE_ASM_COMPILER ${IOSSIM_TOOLCHAIN_BIN_PATH}/x86_64-apple-darwin21-as)
+
+
+#set(CMAKE_SYSTEM_NAME "Darwin")
+#set(CMAKE_SYSTEM_NAME "iOS")
+#string(REGEX REPLACE "-.*" "" CMAKE_SYSTEM_PROCESSOR "${OSXCROSS_HOST}")
+
+
+set(CMAKE_FIND_ROOT_PATH
+  "${OSXCROSS_SDK}"
+)
+
+
+# sqlite: nohave_system, iphone_simulator
+# TODO: special flags relayed to specific project
+set(IOSSIM_CFLAGS "-DSQLITE_NOHAVE_SYSTEM -DTARGET_IPHONE_SIMULATOR")
+set(IOSSIM_CXXFLAGS "-DSQLITE_NOHAVE_SYSTEM -DTARGET_IPHONE_SIMULATOR")
+
+#set(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_BUILD_TYPE Release)
+
+
+# search for programs in the build host directories
+set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
+# for libraries and headers in the target directories
+set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
+set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
+set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)
+
+# CMakeLists.txt
+#set(WORDS_BIGENDIAN 0)
+# libtiff
+#set(bigendian 0)
+# openjpeg
+#set(OPJ_BIG_ENDIAN 0)
+
+set(TARGET_EXTRA_CFLAGS ${IOSSIM_CFLAGS})
+set(TARGET_EXTRA_CXXFLAGS ${IOSSIM_CXXFLAGS})
+

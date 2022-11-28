@@ -50,7 +50,7 @@ $ wget https://dl.google.com/android/repository/android-ndk-r21e-linux-x86_64.zi
 ![files](./images/files.png)
 
 
-* 编译脚本来自 [gist](https://gist.github.com/enh/b2dc8e2cbbce7fffffde2135271b10fd), 修改并使用的脚本: [test_aarch.sh](./scripts/test_aarch.sh)。
+* 编译脚本来自 [gist](https://gist.github.com/enh/b2dc8e2cbbce7fffffde2135271b10fd), 修改并使用的脚本: [test_aarch.sh](./env_vm_mac//scripts/test_aarch.sh)。
 
 * 编译结果在 **boost_1_75_0/stage/lib/**
 
@@ -69,13 +69,13 @@ $ wget https://dl.google.com/android/repository/android-ndk-r21e-linux-x86_64.zi
 * 用darwin-clang编没有darwin环境。darwin默认macOS，网上找了一下，在linux上搭建这个环境好像不是主流，没看到参考。
 * 打算先搞ios再来看这个
 ### 在Mac mini上
-这台机器已经装好了Xcode，直接就可以编译[test_mac](./scripts/test_mac.sh), 实际上使用的toolset=clang-darwin131
+这台机器已经装好了Xcode，直接就可以编译[test_mac](./env_vm_mac/scripts/test_mac.sh), 实际上使用的toolset=clang-darwin131
 
 ## iphone simulator
 环境：Mac mini + Xcode.14 + iphonesimilator sdk 15.4
 ### 编译
-* 设置toolset：将[project-config.jam](./scripts/project-config.jam) 放在 __boost_$VER/__ 目录下
-* 在 __boost_$VER/__ 运行[test_iphonesim.sh](./scripts/test_iphonesim.sh)
+* 设置toolset：将[project-config.jam](./env_vm_mac//scripts/project-config.jam) 放在 __boost_$VER/__ 目录下
+* 在 __boost_$VER/__ 运行[test_iphonesim.sh](./env_vm_mac//scripts/test_iphonesim.sh)
 * *.a文件生成在 __boost_$VER/stage/lib
 ### 测试
 * 打开Xcode，创建一个__Object-C__的Hello World项目，假设项目名叫 **1234**

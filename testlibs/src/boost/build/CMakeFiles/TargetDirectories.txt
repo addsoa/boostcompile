@@ -1,0 +1,3 @@
+/Users/bsl/zf/workspaces/testlibs/src/boost/build/CMakeFiles/boostusage.dir
+/Users/bsl/zf/workspaces/testlibs/src/boost/build/CMakeFiles/edit_cache.dir
+/Users/bsl/zf/workspaces/testlibs/src/boost/build/CMakeFiles/rebuild_cache.dir

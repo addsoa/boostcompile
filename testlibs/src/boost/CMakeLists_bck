@@ -1,0 +1,63 @@
+project(boostbuildtest)
+
+set(BOOST_LIB_PATH /home/bsl/zf/workspaces/testbuild/libs/maclibs/boost)
+
+add_library(libboost_atomic STATIC IMPORTED)
+set_target_properties(libboost_atomic PROPERTIES IMPORTED_LOCATION
+        ${BOOST_LIB_PATH}/libboost_atomic.a)
+
+## No case to test chrono lib
+add_library(libboost_chrono STATIC IMPORTED)
+set_target_properties(libboost_chrono PROPERTIES IMPORTED_LOCATION
+        ${BOOST_LIB_PATH}/libboost_chrono.a)
+#
+
+add_library(libboost_container STATIC IMPORTED)
+set_target_properties(libboost_container PROPERTIES IMPORTED_LOCATION
+        ${BOOST_LIB_PATH}/libboost_container.a)
+
+add_library(libboost_date_time STATIC IMPORTED)
+set_target_properties(libboost_date_time PROPERTIES IMPORTED_LOCATION
+        ${BOOST_LIB_PATH}/libboost_date_time.a)
+
+add_library(libboost_filesystem STATIC IMPORTED)
+set_target_properties(libboost_filesystem PROPERTIES IMPORTED_LOCATION
+        ${BOOST_LIB_PATH}/libboost_filesystem.a)
+
+add_library(libboost_iostreams STATIC IMPORTED)
+set_target_properties(libboost_iostreams PROPERTIES IMPORTED_LOCATION
+        ${BOOST_LIB_PATH}/libboost_iostreams.a)
+
+add_library(libboost_json STATIC IMPORTED)
+set_target_properties(libboost_json PROPERTIES IMPORTED_LOCATION
+        ${BOOST_LIB_PATH}/libboost_json.a)
+
+#add_library(libboost_stacktrace_basic STATIC IMPORTED)
+#set_target_properties(libboost_stacktrace_basic PROPERTIES IMPORTED_LOCATION
+#        ${BOOST_LIB_PATH}/libboost_stacktrace_basic.a)
+
+add_library(libboost_stacktrace_noop STATIC IMPORTED)
+set_target_properties(libboost_stacktrace_noop PROPERTIES IMPORTED_LOCATION
+        ${BOOST_LIB_PATH}/libboost_stacktrace_noop.a)
+
+add_library(libboost_thread STATIC IMPORTED)
+set_target_properties(libboost_thread PROPERTIES IMPORTED_LOCATION
+        ${BOOST_LIB_PATH}/libboost_thread.a)
+
+#add_library(boostusage STATIC boosttest.cpp)
+
+##z is for libz for iostream test
+#target_link_libraries(boostusage 
+add_executable(boostusage boosttest.cpp
+					libboost_atomic.a
+                                        libboost_filesystem
+                                        libboost_container
+                                        libboost_date_time
+                                        z libboost_iostreams
+	                                libboost_json
+        #                                # suppose they are used alternatively
+        #                                libboost_stacktrace_basic
+                                        libboost_stacktrace_noop
+                                        libboost_thread
+        )
+
