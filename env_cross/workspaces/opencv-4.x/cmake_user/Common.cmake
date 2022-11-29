@@ -1,3 +1,5 @@
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++ -std=c++11")
 include(/home/user1/workspaces/buildconfigs/toolchain_config.cmake)
 
 # build target
@@ -35,15 +37,18 @@ set(BUILD_WITH_DYNAMIC_IPP 0)
 set(ENV{OPENCV_IPP_PATH} /home/user1/workspaces/opencv-4.x/build/3rdparty/ippicv/ippicv_mac)
 
 
-# CMakeLists.txt
-set(WORDS_BIGENDIAN 0)
-# libtiff
-set(bigendian 0)
-# openjpeg
-set(OPJ_BIG_ENDIAN 0)
-
 # opencl deprecated
 set(WITH_OPENCL 0)
+set(WITH_LAPACK 0)
+set(BUILD_ANDROID_EXAMPLES 0)
+set(INSTALL_ANDROID_EXAMPLES 0)
+
+# TODO: big endian for arm
+#set(WORDS_BIGENDIAN 0)
+# libtiff
+#set(bigendian 0)
+# openjpeg
+#set(OPJ_BIG_ENDIAN 0)
 
 
 if(BUILD_MAC_LIB)
@@ -51,39 +56,51 @@ if(BUILD_MAC_LIB)
     set(IOS 0)
     set(ANDROID 0)
     set(UNIX 0)
+
+    set(WORDS_BIGENDIAN 0)
+    # libtiff
+    set(bigendian 0)
+    # openjpeg
+    set(OPJ_BIG_ENDIAN 0)
 endif()
 if(BUILD_ANDROID_LIB)
     set(APPLE 0)
     set(IOS 0)
     set(ANDROID 1)
     set(UNIX 0)
+
+    set(WORDS_BIGENDIAN 1)
+    # libtiff
+    set(bigendian 1)
+    # openjpeg
+    set(OPJ_BIG_ENDIAN 1)
 endif()
 if(BUILD_IOSSIM_LIB)
     set(APPLE 1)
     set(IOS 1)
     set(ANDROID 0)
     set(UNIX 0)
+
+    set(WORDS_BIGENDIAN 0)
+    # libtiff
+    set(bigendian 0)
+    # openjpeg
+    set(OPJ_BIG_ENDIAN 0)
 endif()
 if(BUILD_IOS_LIB)
     set(APPLE 1)
     set(IOS 1)
     set(ANDROID 0)
     set(UNIX 0)
-endif()
 
-#tmp target type
-# for android
-#set(ANDROID 1)
-# for iossim and ios
-#set(IOS 1)
-#set(APPLE 1)
-# for mac
-#set(APPLE 1)
+    set(WORDS_BIGENDIAN 1)
+    # libtiff
+    set(bigendian 1)
+    # openjpeg
+    set(OPJ_BIG_ENDIAN 1)
+endif()
 
 
 #
-set(BUILD_ANDROID_EXAMPLES 0)
-set(INSTALL_ANDROID_EXAMPLES 0)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++ -std=c++11")
 #set(OPENCV_EXTRA_FLAGS "${OPENCV_EXTRA_FLAGS_DEBUG} -stdlib=libstdc++")
 

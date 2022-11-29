@@ -22,6 +22,7 @@ BOOST_STAGE_PATH=${BOOST_SRC_PATH}/stage
 
 cd $BOOST_SRC_PATH/tools/build/; ./bootstrap.sh
 
+#cxxflags="-fPIC -std=c++11 -stdlib=libc++ -fvisibility-inlines-hidden " \
 cd $BOOST_SRC_PATH; ./tools/build/b2  \
     cxxflags="-fPIC -std=c++11 -stdlib=libc++ -fvisibility=hidden -fvisibility-inlines-hidden " \
     cflags=-fPIC define=BOOST_THREAD_TEST=1 \
